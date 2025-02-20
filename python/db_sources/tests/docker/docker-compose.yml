@@ -1,0 +1,26 @@
+version: "3"
+
+services:
+  mssql_test:
+    container_name: mssql_test
+    image: mcr.microsoft.com/mssql/server:2017-latest
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=StrongPassword1
+    ports:
+      - "1433:1433"
+
+  pg_test:
+    container_name: pg_test
+    image: postgres:13-alpine
+    environment:
+      - POSTGRES_PASSWORD=StrongPassword1
+    ports:
+      - "5432:5432"
+
+  ch_test:
+    container_name: ch_test
+    image: clickhouse/clickhouse-server:latest
+    ports:
+      - "8123:8123"
+      - "9000:9000"
