@@ -11,11 +11,7 @@ with open(ver_path) as ver_file:
 setup(
     name="db_sources",
     version=ver_dict["__version__"],
-    description="Пакет для работы с различными источниками данных DNS",
-    url="https://adm-dwh-git.dns-shop.ru/fcs-bi/pypi/dns-sources.git",
-    author="БАД ФКС",
-    author_email="Branch4233@dns-shop.ru",
-    license="DNS Ltd.",
+    description="Пакет для работы с различными источниками данных",
     include_package_data=True,
     packages=find_packages(),
     python_requires=">=3.10",

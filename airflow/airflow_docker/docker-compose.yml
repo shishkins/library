@@ -1,0 +1,59 @@
+services:
+  airflow-db:
+    image: postgres:15
+    restart: always
+    container_name: airflow-db
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
+    volumes:
+      - airflow-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD", "pg_isready", "-U", "airflow" ]
+      interval: 5s
+      retries: 5
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - "5433:5432"
+    networks:
+      - airflow-
+
+  airflow-web:
+    build: .
+    restart: always
+    container_name: airflow-web
+    depends_on:
+      - airflow-db
+    env_file: .env
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./logs:/usr/local/airflow/logs
+    ports:
+      - "8190:8180"
+    command: webserver
+    healthcheck:
+      test: [ "CMD-SHELL", "[ -f /usr/local/airflow/airflow-webserver.pid ]" ]
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    networks:
+      - airflow
+      - traefik  # необходимо создать внешнюю сеть traefik
+
+volumes:
+  airflow-db-data:
+    name: airflow-db-data
+
+networks:
+  airflow-:
+    name: airflow-
+  traefik:
+    external: true

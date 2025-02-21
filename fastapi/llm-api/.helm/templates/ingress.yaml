@@ -1,0 +1,24 @@
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: {{ .Values.ingress.name }}
+{{- if .Values.ingress.annotations }}
+  annotations:
+{{ toYaml .Values.ingress.annotations | indent 4 }}
+{{- end }}
+spec:
+  {{- if .Values.ingress.tls }}
+  tls:
+    - secretName: {{ .Values.ingress.tls.name }}
+      hosts:
+        - {{ .Values.web.host }}
+  {{- end }}
+  rules:
+    - host: {{ .Values.web.host }}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: {{ .Values.service.name }}
+              servicePort: {{ .Values.web.port }}

@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  labels:
+    app: {{ .Chart.Name }}
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  revisionHistoryLimit: 2
+  selector:
+    matchLabels:
+      app: {{ .Chart.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Chart.Name }}
+    spec:
+      imagePullSecrets:
+        - name: {{ .Values.web.pull_secret }}
+      containers:
+        - name: {{ .Values.container.name }}
+          imagePullPolicy: Always
+          {{- tuple "llm-api-image" . | werf_container_image | nindent 10 }}
+          {{- if .Values.container.resources }}
+          resources:
+            {{- toYaml .Values.container.resources | nindent 12 }}
+          {{- end }}
+          envFrom:
+            - configMapRef:
+                name: configmap-llm-api
+          ports:
+            - containerPort: {{ .Values.web.port | default 80 }}
+...

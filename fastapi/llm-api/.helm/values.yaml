@@ -1,0 +1,31 @@
+web:
+  debug: "false"
+  pull_secret: llm-api-app-main-registry
+  host: llm-api.dwh.dns-shop.ru
+  port: 8080
+container:
+  name: llm-api-container
+  resources:
+    limits:
+      cpu: 2000m
+      memory: 3Gi
+    requests:
+      cpu: 100m
+      memory: 100Mi
+service:
+  name: llm-api-service
+ingress:
+  name: llm-api-ingress
+  tls:
+    name: tls-dwh-dns-shop-certificate
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "700"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "700"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "700"
+    nginx.ingress.kubernetes.io/keepalive_timeout: "700"
+    nginx.ingress.kubernetes.io/client_max_body_size: "100m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"

@@ -1,0 +1,13 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: configmap-llm-api
+data:
+  DEBUG: {{ .Values.web.debug | quote }}
+  DATABASE_URI: {{ .Values.secrets.database.database_uri | quote }}
+  LDAP_USERNAME: {{ .Values.secrets.ldap.ldap_username | quote }}
+  LDAP_PASSWORD: {{ .Values.secrets.ldap.ldap_password | quote }}
+  OPENAI_API_KEY: {{ .Values.secrets.openai.openai_api_key | quote }}
+  OPENAI_PROXY_URL: {{ .Values.secrets.openai.openai_proxy_url | quote }}
+...

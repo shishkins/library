@@ -1,0 +1,16 @@
+services:
+    llm-api:
+        build: .
+        container_name: llm-api
+        environment:
+          - DEBUG=True
+          - LDAP_USERNAME=$LDAP_USERNAME
+          - LDAP_PASSWORD=$LDAP_PASSWORD
+          - DATABASE_URI=$DATABASE_URI
+          - OPENAI_API_KEY=$OPENAI_API_KEY
+          - OPENAI_PROXY_URL=$OPENAI_PROXY_URL
+        volumes:
+          - ./app:/app
+        ports:
+          - "8080:8080"
+        restart: always

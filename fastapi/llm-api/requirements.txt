@@ -1,0 +1,13 @@
+fastapi[standard]==0.115.7
+pydantic==2.10.6
+aiohttp==3.11.11
+psycopg[binary]==3.2.4
+pandas==2.2.3
+sqlmodel==0.0.22
+requests==2.32.3
+openai==1.60.2
+tiktoken==0.8.0
+python-ldap==3.4.4
+https://github.com/cgohlke/python-ldap-build/releases/download/v3.4.4/python_ldap-3.4.4-cp312-cp312-win_amd64.whl ; sys_platform == "win32"
+pydantic-settings==2.7.1
+httpx==0.28.1

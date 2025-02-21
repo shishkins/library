@@ -1,0 +1,5 @@
+project: llm-api-app
+configVersion: 1
+---
+image: llm-api-image
+dockerfile: Dockerfile

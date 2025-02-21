@@ -1,0 +1,24 @@
+stages:
+  - deploy
+
+pull-main:
+  stage: deploy
+  tags:
+    - gitlab-runner-main
+  only:
+    refs:
+      - main
+  script:
+    - cd /{path}/dags # path to directory on airflow machine (git main branch)
+    - sudo git pull
+
+pull-dev:
+  stage: deploy
+  tags:
+    - gitlab-runner-dev
+  only:
+    refs:
+      - dev
+  script:
+    - cd /{path}}/dags # path to directory on airflow machine (git dev branch)
+    - sudo git pull

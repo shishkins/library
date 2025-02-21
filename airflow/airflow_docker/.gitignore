@@ -1,0 +1,5 @@
+logs/*
+check/*
+.env
+*.swp
+dags/*

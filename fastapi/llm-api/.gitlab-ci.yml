@@ -1,0 +1,36 @@
+image: $CI_REGISTRY_IMAGE:$CI_COMMIT_REF_SLUG
+
+stages:
+  - build
+  - deploy
+
+.deploy_ref_list: &deploy_ref_list
+  - main
+
+default:
+  tags:
+    - shell-runner
+
+variables:
+  WERF_KUBE_CONTEXT: dwh
+
+before_script:
+  - type multiwerf && . $(multiwerf use 1.1 stable --as-file)
+  - type werf && . $(werf ci-env gitlab --as-file)
+
+build:deploy:
+  stage: build
+  only:
+    refs: *deploy_ref_list
+  script:
+    - werf build-and-publish --stages-storage :local 
+                             --images-repo $CI_REGISTRY_IMAGE
+
+deploy:app:
+  stage: deploy
+  only:
+    refs:
+      - main
+  script:
+    - werf deploy --stages-storage :local 
+                  --env $CI_COMMIT_REF_SLUG

@@ -1,0 +1,25 @@
+pull-main:
+  stage: deploy
+  tags:
+    - gitlab-runner-main
+  only:
+    refs:
+      - main
+  script:
+    - cd /{path_to_dags}/dags # main git branch
+    - sudo git pull
+    - sudo docker compose up --build -d
+
+pull-dev:
+  stage: deploy
+  tags:
+    - gitlab-runner-dev
+  only:
+    refs:
+      - main
+  script:
+    - cd cd /{path_to_dags}/dags # dev git branch
+    - sudo git pull
+    - sudo docker compose up --build -d
+
+
